@@ -1,12 +1,6 @@
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
-import org.influxdb.dto.BatchPoints;
-import org.influxdb.dto.Point;
-import org.influxdb.dto.Query;
-import org.influxdb.dto.QueryResult;
-
-import java.util.concurrent.TimeUnit;
 
 public class ClientMQTT {
     public static void main(String[] args) throws Exception {

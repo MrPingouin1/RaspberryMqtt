@@ -1,7 +1,14 @@
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.influxdb.InfluxDB;
+import org.influxdb.dto.Point;
+
+import java.util.concurrent.TimeUnit;
+
 
 public class SimpleMqttCallBack implements MqttCallback {
     private InfluxDB connectionBD;
@@ -17,6 +24,20 @@ public class SimpleMqttCallBack implements MqttCallback {
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         String message = new String(mqttMessage.getPayload());
+
+        System.out.println(message);
+
+        Point.Builder builder = Point.measurement("compteur")
+                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        JsonObject jobject = new JsonParser().parse(message).getAsJsonObject();
+
+        for (String key : jobject.keySet()){
+            builder.addField(key, jobject.get(key).getAsString());
+        }
+        connectionBD.write("tacos", "autogen", builder.build());
+
+
+
         connectionBD.write(message);
         System.out.println("Message received:\n\t"+ message );
     }
