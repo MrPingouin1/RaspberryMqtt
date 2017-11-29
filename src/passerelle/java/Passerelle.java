@@ -1,14 +1,16 @@
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Passerelle {
 
     public static void main(String[] args) throws Exception {
-        final String compteurURL = "192.168.20.164";
-        final String serveurURL = "192.168.20.164";
+        final String compteurURL = "http://192.168.20.104/api/xdevices.json";
+        final String serveurURL = "http://192.168.20.99";
         String data, temp;
         boolean boucle = true;
         while (boucle) {
@@ -24,15 +26,16 @@ public class Passerelle {
             connIn.disconnect();
 
             // Envoi des données au serveur
-            HttpURLConnection connOut = (HttpURLConnection) new URL(serveurURL).openConnection();
-            connOut.setDoOutput(true);
-            OutputStreamWriter writer = new OutputStreamWriter(connOut.getOutputStream());
-            writer.write(data);
-            writer.flush();
-            writer.close();
-            connOut.disconnect();
+            MqttClient client = new MqttClient(serveurURL, MqttClient.generateClientId());
+            client.connect();
+            MqttMessage message = new MqttMessage();
+            message.setPayload(data.getBytes());
+            client.publish("tacos_compteur", message);
+            client.disconnect();
+            client.close();
+
             // Tempo
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         }
     }
 }
