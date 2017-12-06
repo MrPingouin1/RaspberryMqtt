@@ -14,5 +14,6 @@ public class ClientMQTT {
         client.connect();
         client.setCallback(new SimpleMqttCallBack(influxDB));
         client.subscribe("tacos_compteur");
+
     }
 }
