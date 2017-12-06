@@ -29,9 +29,7 @@ public class SimpleMqttCallBack implements MqttCallback {
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         String message = new String(mqttMessage.getPayload(), StandardCharsets.UTF_8);
-        System.out.println("Message received :\n\t"+ message );
-
-        System.out.println(message);
+        System.out.println("Message reçu : "+ message );
 
         Point.Builder builder = Point.measurement("mesures")
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS);

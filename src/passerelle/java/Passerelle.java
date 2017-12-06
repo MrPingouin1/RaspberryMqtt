@@ -11,10 +11,9 @@ public class Passerelle {
     public static void main(String[] args) throws Exception {
         final String compteurURL = "http://192.168.20.104/api/xdevices.json";
         final String serveurURL = "tcp://192.168.20.99";
-        int dureeTempoMs = 1000;
+        final int dureeTempoMS = 1000;
         String data, temp;
         boolean boucle = true;
-
 
         MqttClient client = new MqttClient(serveurURL, MqttClient.generateClientId());
         client.connect();
@@ -35,19 +34,11 @@ public class Passerelle {
             connIn.disconnect();
 
             // Envoi des données au serveur
-            try {
-                message.setPayload(data.getBytes());
-                client.publish("tacos_compteur", message);
-            } catch (Exception e) {
-                // Connexion perdue, on essaye de se reconnecter
-                System.out.println("Connexion MQTT perdue, reconnexion");
-                client = new MqttClient(serveurURL, MqttClient.generateClientId());
-                client.connect();
-                message = new MqttMessage();
-            }
+            message.setPayload(data.getBytes());
+            client.publish("tacos_compteur", message);
 
             // Tempo
-            Thread.sleep(dureeTempoMs);
+            Thread.sleep(dureeTempoMS);
         }
 
         client.disconnect();
