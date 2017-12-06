@@ -10,7 +10,7 @@ public class Passerelle {
 
     public static void main(String[] args) throws Exception {
         final String compteurURL = "http://192.168.20.104/api/xdevices.json";
-        final String serveurURL = "http://192.168.20.99";
+        final String serveurURL = "tcp://192.168.20.99";
         String data, temp;
         boolean boucle = true;
         while (boucle) {
@@ -19,9 +19,11 @@ public class Passerelle {
             HttpURLConnection connIn = (HttpURLConnection) new URL(compteurURL).openConnection();
             connIn.setRequestMethod("GET");
             BufferedReader reader = new BufferedReader(new InputStreamReader(connIn.getInputStream()));
+
             while ((temp = reader.readLine()) != null) {
                 data += temp;
             }
+            System.out.println(data);
             reader.close();
             connIn.disconnect();
 
