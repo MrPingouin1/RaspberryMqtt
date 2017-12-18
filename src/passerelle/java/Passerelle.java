@@ -6,11 +6,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 public class Passerelle {
 
     public static void main(String[] args) throws Exception {
+        // L'adresse de l'API du composant GSE Electronics sur le réseau local
         final String compteurURL = "http://192.168.20.104/api/xdevices.json";
+        // L'adresse du serveur de messagerie MQTT
         final String serveurURL = "tcp://192.168.20.99";
+        // Le temps de sommeil, en ms, entre deux envois
         final int dureeTempoMS = 1000;
         String data, temp;
         boolean boucle = true;

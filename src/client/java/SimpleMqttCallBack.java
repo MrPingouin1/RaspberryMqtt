@@ -1,7 +1,5 @@
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -12,8 +10,8 @@ import org.influxdb.dto.Point;
 
 import java.nio.charset.StandardCharsets;
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
 
 public class SimpleMqttCallBack implements MqttCallback {
     private InfluxDB connectionBD;
